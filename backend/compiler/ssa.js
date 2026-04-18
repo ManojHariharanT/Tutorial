@@ -85,8 +85,6 @@ export class SSABuilder {
     return node.value;
   }
 
-
-
   visitIdentifier(node) {
     return this.getSSAVar(node.name);
   }
@@ -131,7 +129,7 @@ export class SSABuilder {
   }
 
   visitReturnStatement(node) {
-    const val = this.visit(node.expression);
+    const val = this.visit(node.argument);
     this.emit({ op: "return", args: [val] });
   }
 }

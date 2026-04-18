@@ -7,8 +7,10 @@ export const sfLangPlugin = {
     keywords: ["let", "const", "var", "function", "return", "if", "else", "while", "for", "true", "false", "null"],
     operators: ["=", ">", "<", "!", "~", "?", ":", "==", "<=", ">=", "!=", "&&", "||", "++", "--", "+", "-", "*", "/", "&", "|", "^", "%", "<<", ">>", ">>>", "+=", "-=", "*=", "/=", "&=", "|=", "^=", "%=", "<<=", ">>=", ">>>="],
   },
-  lspServerUrl: process.env.NODE_ENV === "production" ? `wss://${window.location.host}/lsp/sflang` : "ws://localhost:5000/lsp/sflang",
-  compilerEndpoint: "/api/playground/compile", // Future logic
+  lspServerUrl: typeof window !== "undefined" && window.location.protocol === "https:"
+    ? `wss://${window.location.host}/lsp/sflang`
+    : "ws://localhost:5000/lsp/sflang",
+  compilerEndpoint: "/api/playground/compile",
   executorEndpoint: "/api/playground/run",
   executorStreamEndpoint: "/api/playground/run-stream",
   defaultSnippets: [
@@ -18,7 +20,7 @@ export const sfLangPlugin = {
     },
     {
       name: "function block",
-      code: "function mySFLangFunc() {\\n  return true;\\n}",
+      code: "function mySFLangFunc() {\n  return true;\n}",
     }
   ]
 };

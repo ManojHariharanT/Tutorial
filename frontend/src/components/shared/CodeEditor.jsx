@@ -41,9 +41,26 @@ const CodeEditor = ({
       monaco.languages.register({ id: plugin.id });
       // Apply syntax highlighting rules (Mocking Monaco's config map for custom grammar)
       monaco.languages.setMonarchTokensProvider(plugin.id, {
+        keywords: plugin.grammar.keywords,
         tokenizer: {
           root: [
-            [new RegExp(`\\\\b(?:${plugin.grammar.keywords.join("|")})\\\\b`), "keyword"],
+            // Identifiers and keywords
+            [/[a-zA-Z_]\w*/, {
+              cases: {
+                "@keywords": "keyword",
+                "@default": "identifier"
+              }
+            }],
+            // Numbers
+            [/\d+(\.\d+)?/, "number"],
+            // Strings
+            [/"([^"\\]|\\.)*"/, "string"],
+            [/'([^'\\]|\\.)*'/, "string"],
+            // Comments
+            [/\/\/.*$/, "comment"],
+            // Operators and punctuation
+            [/[+\-*/=<>!&|^%]+/, "operator"],
+            [/[(){}\[\],;.]/, "delimiter"],
           ]
         }
       });
