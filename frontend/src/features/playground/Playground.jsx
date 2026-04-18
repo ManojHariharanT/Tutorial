@@ -11,6 +11,7 @@ import playgroundService from "../../services/playgroundService.js";
 import { runWorkspaceLocally } from "../../utils/codeRunner.js";
 import { recordDemoPlaygroundRun } from "../../utils/demoState.js";
 import FileExplorer from "./FileExplorer.jsx";
+import CompilerExplorer from "./CompilerExplorer.jsx";
 import { registry } from "../../plugins/index.js";
 
 const buildWorkspaceCode = (files, primaryLanguage) =>
@@ -26,6 +27,7 @@ const Playground = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [isRunning, setIsRunning] = useState(false);
+  const [compilation, setCompilation] = useState(null);
 
   const activeFile = useMemo(
     () => files.find((file) => file.id === activeFileId) || files[0],
@@ -68,6 +70,7 @@ const Playground = () => {
     setFiles(mockPlaygroundFiles);
     setActiveFileId(mockPlaygroundFiles[0].id);
     setResult(null);
+    setCompilation(null);
     setError("");
     setNotice("");
   };
@@ -75,15 +78,19 @@ const Playground = () => {
   const handleRun = async () => {
     setIsRunning(true);
     setError("");
+    setCompilation(null);
 
     try {
-      const primaryLanguage = activeFile.language; // Or determine based on entry point
+      const primaryLanguage = activeFile.language;
       const response = await playgroundService.runCode({
         code: buildWorkspaceCode(files, primaryLanguage),
         language: primaryLanguage,
       });
 
       setResult(response);
+      if (response.compilation) {
+        setCompilation(response.compilation);
+      }
       recordDemoPlaygroundRun();
     } catch (runError) {
       const fallback = await runWorkspaceLocally(files, activeFileId);
@@ -97,6 +104,8 @@ const Playground = () => {
       setIsRunning(false);
     }
   };
+
+  const isSFLang = activeFile.language === "sflang";
 
   return (
     <div className="space-y-8">
@@ -122,7 +131,7 @@ const Playground = () => {
         </NoticeBanner>
       ) : null}
 
-      <div className="grid gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">
+      <div className={`grid gap-6 ${isSFLang ? "xl:grid-cols-[260px_1fr_400px]" : "xl:grid-cols-[300px_minmax(0,1fr)]"}`}>
         <FileExplorer
           activeFileId={activeFileId}
           files={files}
@@ -141,16 +150,18 @@ const Playground = () => {
             languages={registry.getAllPlugins().map(p => p.id)}
             onLanguageChange={(lang) => {
                const plugin = registry.getPlugin(lang);
-               const ext = plugin?.fileExtensions?.[0] || 'txt';
+               const ext = plugin?.fileExtensions?.[0] || 'js';
                setFiles(curr => curr.map(f => f.id === activeFileId ? {
                  ...f, 
                  language: lang,
-                 name: f.name.replace(/\\.[^/.]+$/, "") + "." + ext,
-                 path: f.path.replace(/\\.[^/.]+$/, "") + "." + ext
+                 name: f.name.replace(/\.[^/.]+$/, "") + "." + ext,
+                 path: f.path.replace(/\.[^/.]+$/, "") + "." + ext
                } : f));
             }}
           />
         </Card>
+
+        {isSFLang && <CompilerExplorer compilation={compilation} />}
       </div>
 
       <Console
@@ -165,3 +176,4 @@ const Playground = () => {
 };
 
 export default Playground;
+

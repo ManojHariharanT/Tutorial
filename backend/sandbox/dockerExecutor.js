@@ -58,7 +58,7 @@ export const runInDockerStream = ({ code, language, timeoutMs = DEFAULT_TIMEOUT,
 
   const timeoutPath = setTimeout(() => {
     child.kill("SIGKILL");
-    onStderr("\\n[Timeout: Process exceeded 5000ms]\\n");
+    onStderr("\n[Timeout: Process exceeded 5000ms]\n");
     onExit({ code: 1, success: false });
   }, timeoutMs);
 

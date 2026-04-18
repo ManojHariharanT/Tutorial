@@ -19,14 +19,14 @@ export class Lexer {
   }
 
   peek(offset = 0) {
-    if (this.pos + offset >= this.source.length) return "\\0";
+    if (this.pos + offset >= this.source.length) return "\0";
     return this.source[this.pos + offset];
   }
 
   advance() {
-    if (this.isAtEnd()) return "\\0";
+    if (this.isAtEnd()) return "\0";
     const char = this.source[this.pos++];
-    if (char === "\\n") {
+    if (char === "\n") {
       this.line++;
       this.col = 1;
     } else {
@@ -38,10 +38,10 @@ export class Lexer {
   skipWhitespace() {
     while (!this.isAtEnd()) {
       const char = this.peek();
-      if (char === " " || char === "\\r" || char === "\\t" || char === "\\n") {
+      if (char === " " || char === "\r" || char === "\t" || char === "\n") {
         this.advance();
       } else if (char === "/" && this.peek(1) === "/") {
-        while (!this.isAtEnd() && this.peek() !== "\\n") {
+        while (!this.isAtEnd() && this.peek() !== "\n") {
           this.advance();
         }
       } else {
@@ -90,8 +90,8 @@ export class Lexer {
 
     while (!this.isAtEnd() && this.peek() !== quote) {
       // Support simple escape sequences
-      if (this.peek() === "\\\\") {
-        this.advance(); // consume \\
+      if (this.peek() === "\\") {
+        this.advance(); // consume backslash
         if (!this.isAtEnd()) {
           value += this.advance();
         }

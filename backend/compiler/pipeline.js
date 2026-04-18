@@ -4,6 +4,7 @@ import { SemanticAnalyzer } from "./semantic.js";
 import { SSABuilder } from "./ssa.js";
 import { Optimizer } from "./optimizer.js";
 import { CodeGenerator } from "./codegen.js";
+import { WasmCodeGenerator } from "./codegenWasm.js";
 
 export function compileSource(source) {
   // Phase 1: Lexical Analysis
@@ -15,7 +16,7 @@ export function compileSource(source) {
   const ast = parser.parseProgram();
 
   if (parser.errors.length > 0) {
-    throw new Error("Syntax Errors:\\n" + parser.errors.join("\\n"));
+    throw new Error("Syntax Errors:\n" + parser.errors.join("\n"));
   }
 
   // Phase 3: Semantic Analysis
@@ -30,15 +31,22 @@ export function compileSource(source) {
   const optimizer = new Optimizer(rawIR);
   const optimizedIR = optimizer.optimize();
 
-  // Phase 6: Code Generation (target: JS via unmodified AST for now)
-  // For strict WASM, you map Binaryen API directly off the \`optimizedIR\`.
+  // Phase 6a: Code Generation (target: JS)
   const generator = new CodeGenerator(ast);
   const jsCode = generator.generate();
+
+  // Phase 6b: Code Generation (target: WASM Text)
+  const wasmGenerator = new WasmCodeGenerator(optimizedIR);
+  const watCode = wasmGenerator.generate();
 
   return {
     tokens,
     ast,
     ir: optimizedIR,
-    jsCode
+    jsCode,
+    watCode,
+    analyzer // Expose semantic data for LSP
   };
 }
+
+

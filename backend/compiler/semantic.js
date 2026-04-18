@@ -14,6 +14,15 @@ export class SemanticError extends Error {
   }
 }
 
+class Symbol {
+  constructor(name, info, line, col) {
+    this.name = name;
+    this.info = info; // { kind: 'function'|'var'|..., params: ... }
+    this.line = line;
+    this.col = col;
+  }
+}
+
 class Scope {
   constructor(parent = null) {
     this.parent = parent;
@@ -24,7 +33,9 @@ class Scope {
     if (this.symbols.has(name)) {
       throw new SemanticError(`Identifier '${name}' has already been declared.`, line, col);
     }
-    this.symbols.set(name, typeInfo);
+    const symbol = new Symbol(name, typeInfo, line, col);
+    this.symbols.set(name, symbol);
+    return symbol;
   }
 
   resolve(name) {
@@ -42,8 +53,10 @@ export class SemanticAnalyzer {
   constructor(ast) {
     this.ast = ast;
     this.currentScope = new Scope(); // Global scope
-    // Inject some built-ins
-    this.currentScope.define("console", { type: "built_in" }, 0, 0);
+    this.identifierMap = new Map(); // Identifier Node -> Symbol
+    
+    // Inject built-ins
+    this.currentScope.define("console", { kind: "built_in" }, 0, 0);
   }
 
   analyze() {
@@ -69,17 +82,23 @@ export class SemanticAnalyzer {
       
       case "VarDeclaration": {
         this.visit(node.init);
-        // By default everything is inferable or any
-        this.currentScope.define(node.id.name, { kind: node.kind }, node.line, node.col);
+        const symbol = this.currentScope.define(node.id.name, { kind: node.kind }, node.line, node.col);
+        this.identifierMap.set(node.id, symbol);
         break;
       }
       
       case "FunctionDeclaration": {
-        this.currentScope.define(node.id.name, { kind: "function", params: node.params.length }, node.line, node.col);
+        const fnSymbol = this.currentScope.define(node.id.name, { 
+          kind: "function", 
+          params: node.params.map(p => p.name) 
+        }, node.line, node.col);
+        this.identifierMap.set(node.id, fnSymbol);
+
         const previousScope = this.currentScope;
         this.currentScope = new Scope(previousScope);
         for (const param of node.params) {
-          this.currentScope.define(param.name, { kind: "param" }, param.line, param.col);
+          const paramSymbol = this.currentScope.define(param.name, { kind: "param" }, param.line, param.col);
+          this.identifierMap.set(param, paramSymbol);
         }
         this.visit(node.body);
         this.currentScope = previousScope;
@@ -88,9 +107,9 @@ export class SemanticAnalyzer {
       
       case "Identifier": {
         const symbol = this.currentScope.resolve(node.name);
-        // We may want to avoid throwing on undeclared to support JS built-ins in this toy compiler,
-        // or we throw to be strictly safe. Let's just warn or ignore for now
-        // if (!symbol) { throw new SemanticError(`Undeclared identifier '${node.name}'`, node.line, node.col); }
+        if (symbol) {
+          this.identifierMap.set(node, symbol);
+        }
         break;
       }
       
@@ -100,7 +119,6 @@ export class SemanticAnalyzer {
           if (node.left.type !== "Identifier") {
              throw new SemanticError(`Invalid left-hand side in assignment`, node.line, node.col);
           }
-          // We could check if it's a const and throw error
         }
         this.visit(node.left);
         this.visit(node.right);
@@ -115,7 +133,7 @@ export class SemanticAnalyzer {
       case "IfStatement": {
         this.visit(node.test);
         this.visit(node.consequent);
-        this.visit(node.alternate);
+        if (node.alternate) this.visit(node.alternate);
         break;
       }
       
@@ -129,12 +147,11 @@ export class SemanticAnalyzer {
       
       case "MemberExpression": {
         this.visit(node.object);
-        // node.property is just an Identifier in dot notation, not evaluated
         break;
       }
       
       case "ReturnStatement": {
-        this.visit(node.argument);
+        if (node.argument) this.visit(node.argument);
         break;
       }
       
@@ -142,4 +159,24 @@ export class SemanticAnalyzer {
         break;
     }
   }
+
+  /**
+   * Helper for LSP to find the symbol at a cursor position
+   */
+  findSymbolAt(line, col) {
+    let closestNode = null;
+    
+    // We can iterate over identifierMap to find an identifier that overlaps line/col
+    // For simplicity, we just check if it matches the start position
+    // In a real editor, identifiers have length. Let's assume name length.
+    for (const [node, symbol] of this.identifierMap.entries()) {
+      if (node.line === line) {
+        if (col >= node.col && col <= node.col + (node.name ? node.name.length : 0)) {
+           return symbol;
+        }
+      }
+    }
+    return null;
+  }
 }
+

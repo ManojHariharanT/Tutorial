@@ -59,7 +59,10 @@ export class SFLangServer {
     const { uri = "default", contentChanges } = params;
     if (contentChanges?.length > 0) {
       const fullText = contentChanges[0].text;
-      this.documents.set(uri, fullText);
+      this.documents.set(uri, {
+        text: fullText,
+        analysis: null
+      });
       this.runDiagnostics(ws, uri, fullText);
     }
   }
@@ -68,12 +71,12 @@ export class SFLangServer {
     const diagnostics = [];
     
     try {
-      compileSource(text);
+      const result = compileSource(text);
+      const doc = this.documents.get(uri);
+      if (doc) doc.analysis = result;
     } catch (error) {
-      // Very basic rudimentary parse of our custom errors from pipeline.js
-      // Example: "Syntax Errors:\\n[Line 1, Col 58] Error: Unexpected primary expression token: '.'"
-      const match = error.message.match(/\\[Line (\\d+), Col (\\d+)\\] Error: (.*)/);
-      if (match) {
+       const match = error.message.match(/\[Line (\d+), Col (\d+)\] (?:Semantic Error|Syntax Error): (.*)/);
+       if (match) {
         const line = parseInt(match[1], 10) - 1;
         const col = parseInt(match[2], 10) - 1;
         diagnostics.push({
@@ -81,7 +84,7 @@ export class SFLangServer {
             start: { line, character: col },
             end: { line, character: col + 1 }
           },
-          severity: 1, // Error
+          severity: 1,
           source: "sflang",
           message: match[3]
         });
@@ -92,44 +95,52 @@ export class SFLangServer {
   }
 
   handleCompletion(params) {
-    // Return standard snippets/completions for SFLang
     return [
-      {
-        label: "function",
-        kind: 3, // Function
-        detail: "Function declaration",
-        insertText: "function name() {\\n  \\n}"
-      },
-      {
-        label: "console.log",
-        kind: 3, 
-        detail: "Log to console",
-        insertText: "console.log($1);"
-      },
-      {
-        label: "let",
-        kind: 14, // Keyword
-        detail: "Variable declaration",
-        insertText: "let "
-      },
-      {
-        label: "return",
-        kind: 14,
-        detail: "Return from function",
-        insertText: "return "
-      }
+      { label: "function", kind: 3, detail: "Function declaration", insertText: "function name() {\n  \n}" },
+      { label: "console.log", kind: 3, detail: "Log to console", insertText: "console.log($1);" },
+      { label: "let", kind: 14, detail: "Variable declaration", insertText: "let " },
+      { label: "return", kind: 14, detail: "Return from function", insertText: "return " }
     ];
   }
 
   handleHover(params) {
-    // Very rudimentary hover stub based on line presence
-    // Ideally maps line/char to AST Node through `compiler/semantic.js` map
-    const { position } = params;
+    const { textDocument, position } = params;
+    const doc = this.documents.get(textDocument.uri);
+    if (!doc || !doc.analysis) return null;
+
+    const symbol = doc.analysis.analyzer.findSymbolAt(position.line + 1, position.character + 1);
+    if (!symbol) return null;
+
+    let markdown = `**${symbol.name}** (${symbol.info.kind})`;
+    if (symbol.info.kind === "function") {
+      markdown += `\n\nParameters: \`${symbol.info.params.join(", ")}\``;
+    } else if (symbol.info.kind === "built_in") {
+      markdown = `**${symbol.name}** (Built-in)`;
+    }
+
     return {
       contents: {
         kind: "markdown",
-        value: \`**SFLang Component** at line \${position?.line + 1}\`
+        value: markdown
       }
     };
   }
+
+  handleDefinition(params) {
+    const { textDocument, position } = params;
+    const doc = this.documents.get(textDocument.uri);
+    if (!doc || !doc.analysis) return [];
+
+    const symbol = doc.analysis.analyzer.findSymbolAt(position.line + 1, position.character + 1);
+    if (!symbol) return [];
+
+    return [{
+      uri: textDocument.uri,
+      range: {
+        start: { line: symbol.line - 1, character: symbol.col - 1 },
+        end: { line: symbol.line - 1, character: symbol.col - 1 + symbol.name.length }
+      }
+    }];
+  }
 }
+

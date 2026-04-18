@@ -24,10 +24,10 @@ export const streamPlaygroundCode = asyncHandler(async (req, res) => {
     code,
     language,
     userId: req.user?._id,
-    onStdout: (data) => res.write(`data: ${JSON.stringify({ type: "stdout", payload: data })}\\n\\n`),
-    onStderr: (data) => res.write(`data: ${JSON.stringify({ type: "stderr", payload: data })}\\n\\n`),
+    onStdout: (data) => res.write(`data: ${JSON.stringify({ type: "stdout", payload: data })}\n\n`),
+    onStderr: (data) => res.write(`data: ${JSON.stringify({ type: "stderr", payload: data })}\n\n`),
     onEnd: (result) => {
-      res.write(`data: ${JSON.stringify({ type: "end", payload: result })}\\n\\n`);
+      res.write(`data: ${JSON.stringify({ type: "end", payload: result })}\n\n`);
       res.end();
     }
   });

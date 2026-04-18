@@ -9,6 +9,7 @@ export class Optimizer {
       this.hasChanged = false;
       this.constantFolding();
       this.deadCodeElimination();
+      this.commonSubexpressionElimination();
     } while (this.hasChanged);
 
     return this.blocks;
@@ -46,6 +47,34 @@ export class Optimizer {
     }
   }
 
+  commonSubexpressionElimination() {
+    for (const block of this.blocks) {
+      const expressions = new Map(); // "op+arg1+arg2" -> targetVar
+      
+      for (let i = 0; i < block.instructions.length; i++) {
+        const inst = block.instructions[i];
+        
+        // Only arithmetic ops for now
+        if (["+", "-", "*", "/"].includes(inst.op) && inst.args.length === 2) {
+          const exprKey = `${inst.op}:${inst.args[0]}:${inst.args[1]}`;
+          
+          if (expressions.has(exprKey)) {
+            const existingTarget = expressions.get(exprKey);
+            // Replace this computation with an assignment from the previous result
+            block.instructions[i] = {
+              op: "assign",
+              target: inst.target,
+              args: [existingTarget]
+            };
+            this.hasChanged = true;
+          } else {
+            expressions.set(exprKey, inst.target);
+          }
+        }
+      }
+    }
+  }
+
   deadCodeElimination() {
     // Collect all variables that are read (args array, or callee calls)
     const usedVars = new Set();
@@ -54,27 +83,27 @@ export class Optimizer {
       for (const inst of block.instructions) {
         if (inst.args) {
           inst.args.forEach(arg => {
-            if (typeof arg === "string" && arg.includes("_")) {
+            if (typeof arg === "string") {
               usedVars.add(arg);
             }
           });
         }
         if (inst.op === "call" && inst.callee) {
-          // callee is a function identifier but target is temporary
+           usedVars.add(inst.callee);
         }
       }
     }
 
-    // Now remove any 'assign' instruction whose target is NEVER used 
+    // Now remove any 'assign' or arithmetic instruction whose target is NEVER used 
     for (const block of this.blocks) {
       const liveInstructions = [];
       for (const inst of block.instructions) {
-        if (inst.op === "assign" || inst.op === "+" || inst.op === "-" || inst.op === "*" || inst.op === "/") {
-          if (!usedVars.has(inst.target) && inst.target.includes("_")) {
-            // It's dead code, skip it
+        const isCompute = ["assign", "+", "-", "*", "/"].includes(inst.op);
+        const isUnused = inst.target && !usedVars.has(inst.target) && inst.target.includes("_");
+        
+        if (isCompute && isUnused) {
             this.hasChanged = true;
             continue;
-          }
         }
         
         liveInstructions.push(inst);
@@ -83,3 +112,4 @@ export class Optimizer {
     }
   }
 }
+

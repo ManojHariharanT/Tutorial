@@ -19,7 +19,7 @@ export class CodeGenerator {
     if (str) {
       this.emit("  ".repeat(this.indentLevel) + str);
     }
-    this.emit("\\n");
+    this.emit("\n");
   }
 
   visit(node) {
@@ -34,15 +34,11 @@ export class CodeGenerator {
       }
 
       case "BlockStatement": {
-        this.emit("{\\n");
+        this.emit("{\n");
         this.indentLevel++;
         for (const stmt of node.body) {
           this.emit("  ".repeat(this.indentLevel));
           this.visit(stmt);
-          if (stmt.type !== "IfStatement" && stmt.type !== "FunctionDeclaration" && stmt.type !== "BlockStatement") {
-            // some statements don't naturally emit newlines at the end in our simple generic visit
-            // Wait, we can just let statements handle their own semicolons and newlines.
-          }
         }
         this.indentLevel--;
         this.emitLine("}");
@@ -91,7 +87,7 @@ export class CodeGenerator {
         this.visit(node.test);
         this.emit(") ");
         if (node.consequent.type !== "BlockStatement") {
-           this.emit("\\n");
+           this.emit("\n");
            this.indentLevel++;
            this.emit("  ".repeat(this.indentLevel));
            this.visit(node.consequent);
@@ -103,7 +99,7 @@ export class CodeGenerator {
         if (node.alternate) {
           this.emit(" else ");
           if (node.alternate.type !== "BlockStatement" && node.alternate.type !== "IfStatement") {
-            this.emit("\\n");
+            this.emit("\n");
             this.indentLevel++;
             this.emit("  ".repeat(this.indentLevel));
             this.visit(node.alternate);

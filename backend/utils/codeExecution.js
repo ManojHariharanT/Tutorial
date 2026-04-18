@@ -4,11 +4,9 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 import { randomUUID } from "node:crypto";
-import { createRequire } from "node:module";
 import { AppError } from "./AppError.js";
-import { runInDocker } from "../sandbox/dockerExecutor.js";
+import { runInDocker, runInDockerStream } from "../sandbox/dockerExecutor.js";
 
-const require = createRequire(import.meta.url);
 const execFileAsync = promisify(execFile);
 const RESULT_MARKER = "__SF_RESULT__";
 const MAX_BUFFER_SIZE = 1024 * 1024;
@@ -40,6 +38,13 @@ export const runCodeSnippet = async ({ code, language = "javascript", timeoutMs 
       const { compileSource } = await import("../compiler/pipeline.js");
       const result = compileSource(code);
       jsCodeToRun = result.jsCode;
+      // Attach artifacts to be returned to front-end
+      var compilationArtifacts = {
+        tokens: result.tokens,
+        ir: result.ir,
+        jsCode: result.jsCode,
+        watCode: result.watCode
+      };
     } catch (err) {
       return { success: false, stdout: "", stderr: err.message };
     }
@@ -47,13 +52,22 @@ export const runCodeSnippet = async ({ code, language = "javascript", timeoutMs 
     throw new AppError("Only JavaScript and sflang execution is available right now.", 400);
   }
 
-  // Check if we want to run in dockerd mode or fallback to child_process
+  // Check if we want to run in Docker mode or fallback to child_process
+  let executionResult;
   if (process.env.USE_DOCKER_SANDBOX === "true") {
-    return runInDocker({ code: jsCodeToRun, language: normLang, timeoutMs });
+    executionResult = await runInDocker({ code: jsCodeToRun, language: normLang, timeoutMs });
+  } else {
+    executionResult = await runLocally(jsCodeToRun, timeoutMs);
   }
 
-  const tempFile = getTempFilePath();
+  return {
+    ...executionResult,
+    compilation: compilationArtifacts
+  };
+};
 
+const runLocally = async (jsCodeToRun, timeoutMs) => {
+  const tempFile = getTempFilePath();
   try {
     await writeFile(tempFile, jsCodeToRun, "utf8");
 
@@ -75,6 +89,7 @@ export const runCodeSnippet = async ({ code, language = "javascript", timeoutMs 
   }
 };
 
+
 export const streamCodeSnippet = async ({ code, language = "javascript", timeoutMs = DEFAULT_TIMEOUT, onStdout, onStderr }) => {
   const normLang = normalizeLanguage(language);
   let jsCodeToRun = code;
@@ -92,12 +107,10 @@ export const streamCodeSnippet = async ({ code, language = "javascript", timeout
     throw new AppError("Only JavaScript and sflang execution is available right now.", 400);
   }
 
-  if (process.env.USE_DOCKER_SANDBOX === "true" || process.env.USE_DOCKER_SANDBOX !== "false") {
-    // We default to Docker streaming unless they strictly opt out
+  if (process.env.USE_DOCKER_SANDBOX === "true") {
     return new Promise((resolve) => {
       let combinedStdout = "";
       let combinedStderr = "";
-      const { runInDockerStream } = require("../sandbox/dockerExecutor.js");
 
       runInDockerStream({
         code: jsCodeToRun,
