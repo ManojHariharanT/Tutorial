@@ -1,6 +1,6 @@
 # Backend Setup Guide
 
-This backend provides authentication, tutorials, practice problem evaluation, progress tracking, and the JavaScript playground executor for SF Tutorial.
+This backend provides authentication, tutorials, practice problem evaluation, progress tracking, and the multi-language playground executor for SF Tutorial.
 
 ## Stack
 
@@ -178,7 +178,7 @@ Base route: `/api/playground`
 
 Behavior:
 
-- JavaScript only
+- JavaScript, Python, and SFLang when the host runtime is available
 - 5 second timeout
 - Each run is stored in the `PlaygroundRun` collection
 
@@ -188,7 +188,8 @@ The executor writes code to a temporary `.mjs` file, runs it with Node.js, captu
 
 Important constraints:
 
-- Only JavaScript is allowed
+- JavaScript and SFLang require Node.js
+- Python execution requires a `python` or `python3` runtime on the host
 - Long-running code is stopped after 5 seconds
 - Practice solutions must define the expected function name for each problem
 

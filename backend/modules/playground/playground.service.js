@@ -1,6 +1,12 @@
 import { AppError } from "../../utils/AppError.js";
-import { runCodeSnippet, streamCodeSnippet } from "../../utils/codeExecution.js";
+import {
+  getSupportedPlaygroundLanguages,
+  runCodeSnippet,
+  streamCodeSnippet,
+} from "../../utils/codeExecution.js";
 import { PlaygroundRun } from "./playground.model.js";
+
+export const listPlaygroundLanguages = async () => getSupportedPlaygroundLanguages();
 
 export const executePlaygroundCode = async ({ code, language, userId }) => {
   if (!code?.trim()) {

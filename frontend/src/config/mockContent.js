@@ -511,12 +511,12 @@ export const mockPlaygroundFiles = [
       "export const totalLessons = (weeks) => weeks.reduce((sum, value) => sum + value, 0);",
   },
   {
-    id: "file-notes",
-    name: "notes.md",
-    path: "/README.md",
-    language: "markdown",
+    id: "file-python",
+    name: "main.py",
+    path: "/src/main.py",
+    language: "python",
     content:
-      "# Playground\n\nEdit JavaScript files, switch between them, and run the active workspace from one screen.",
+      "def total_lessons(weeks):\n    return sum(weeks)\n\nprint('Total lessons this week:', total_lessons([4, 6, 8]))",
   },
 ];
 

@@ -5,6 +5,16 @@ import { cn } from "../../utils/classNames.js";
 import { LSPClient } from "../../services/lspClient.js";
 import { registry } from "../../plugins/index.js";
 
+const normalizeLanguages = (languages) =>
+  languages.map((language) =>
+    typeof language === "string"
+      ? { id: language, label: registry.getPlugin(language)?.displayName || language }
+      : {
+          id: language.id,
+          label: language.label || registry.getPlugin(language.id)?.displayName || language.id,
+        },
+  );
+
 const CodeEditor = ({
   value,
   onChange,
@@ -18,6 +28,7 @@ const CodeEditor = ({
   className,
   headerActions = null,
 }) => {
+  const languageOptions = normalizeLanguages(languages);
   const monacoRef = useRef(null);
   const editorRef = useRef(null);
   const lspClientRef = useRef(null);
@@ -140,7 +151,7 @@ const CodeEditor = ({
   };
 
   return (
-    <div className={cn("flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-surface-950/92", className)}>
+    <div className={cn("flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-surface-950/92 h-full", className)}>
       <div className="flex flex-col gap-4 border-b border-white/8 px-5 py-4 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="text-sm font-semibold text-white">{title}</p>
@@ -151,9 +162,9 @@ const CodeEditor = ({
           {languages.length ? (
             <Tabs onValueChange={onLanguageChange} value={activeLanguage}>
               <TabsList>
-                {languages.map((language) => (
-                  <TabsTrigger key={language} value={language}>
-                    {language}
+                {languageOptions.map((language) => (
+                  <TabsTrigger key={language.id} value={language.id}>
+                    {language.label}
                   </TabsTrigger>
                 ))}
               </TabsList>

@@ -1,5 +1,14 @@
 import { asyncHandler } from "../../utils/asyncHandler.js";
-import { executePlaygroundCode, streamPlaygroundCodeExecution } from "./playground.service.js";
+import {
+  executePlaygroundCode,
+  listPlaygroundLanguages,
+  streamPlaygroundCodeExecution,
+} from "./playground.service.js";
+
+export const getPlaygroundLanguages = asyncHandler(async (_req, res) => {
+  const languages = await listPlaygroundLanguages();
+  res.json({ languages });
+});
 
 export const runPlaygroundCode = asyncHandler(async (req, res) => {
   const result = await executePlaygroundCode({

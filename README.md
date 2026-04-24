@@ -1,6 +1,6 @@
 # SF Tutorial
 
-SF Tutorial is a full-stack learning platform that combines guided tutorials, a JavaScript playground, coding practice, and progress tracking in one workspace.
+SF Tutorial is a full-stack learning platform that combines guided tutorials, a multi-language playground, coding practice, and progress tracking in one workspace.
 
 The project uses a React + Vite frontend and an Express + MongoDB backend. On first startup, the backend seeds demo users, tutorials, and practice problems so the app is usable immediately.
 
@@ -8,7 +8,7 @@ The project uses a React + Vite frontend and an Express + MongoDB backend. On fi
 
 - JWT-based authentication with login, registration, and protected routes
 - Tutorial library with multi-language code examples
-- JavaScript playground backed by a server-side executor
+- Multi-language playground backed by a server-side executor
 - Practice problems with sample runs and full submissions
 - Progress dashboard with completed tutorials, solved problems, and recent submissions
 - Fallback demo content in the frontend when some API calls are unavailable
@@ -153,8 +153,8 @@ You can also register a new account from the UI.
 
 ### Playground
 
-- Playground code runs through `POST /api/playground/run`
-- Current support is JavaScript only
+- Playground code runs through `GET /api/playground/languages` and `POST /api/playground/run`
+- Current support is JavaScript, Python, and SFLang when the host runtime is available
 - Execution is limited to 5 seconds
 - Every run is stored in MongoDB
 
@@ -186,6 +186,7 @@ You can also register a new account from the UI.
 - `GET /api/practice/problems`
 - `GET /api/practice/problems/:problemId`
 - `POST /api/practice/problems/:problemId/run`
+- `GET /api/playground/languages`
 - `POST /api/playground/run`
 
 ### Protected endpoints
@@ -197,8 +198,8 @@ You can also register a new account from the UI.
 
 ## Notes and Limitations
 
-- The code executor only supports JavaScript right now
-- Playground and practice execution rely on local Node.js execution through the backend
+- The code executor currently supports JavaScript, Python, and SFLang
+- Playground and practice execution rely on local runtimes through the backend
 - Several frontend screens fall back to mock data when related API calls fail
 - `Bookmarks` and `Settings` are intentionally scaffolded placeholders
 

@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { runPlaygroundCode, streamPlaygroundCode } from "./playground.controller.js";
+import {
+  getPlaygroundLanguages,
+  runPlaygroundCode,
+  streamPlaygroundCode,
+} from "./playground.controller.js";
 
 const router = Router();
 
+router.get("/languages", getPlaygroundLanguages);
 router.post("/run", runPlaygroundCode);
 router.post("/run-stream", streamPlaygroundCode);
 

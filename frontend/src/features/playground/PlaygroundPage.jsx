@@ -41,8 +41,8 @@ const PlaygroundPage = () => {
     <div className="space-y-8">
       <PageHeader
         eyebrow="Playground"
-        title="Write JavaScript and run it against the backend executor."
-        description="This is the simple child_process-based executor for the first iteration. It is scoped to JavaScript and protected by a 5 second timeout."
+        title="Write code and run it against the backend executor."
+        description="This is the simple child_process-based executor for the first iteration. It now exposes whichever runtimes the backend reports and keeps the same 5 second timeout."
         actions={
           <>
             <select
@@ -93,7 +93,7 @@ const PlaygroundPage = () => {
         >
           <div className="flex items-center gap-3">
             {result ? <StatusPill>{result.success ? "Executed" : "Runtime Error"}</StatusPill> : null}
-            <p className="text-sm text-slate-500">JavaScript only in this version.</p>
+            <p className="text-sm text-slate-500">Language availability depends on the backend runtime list.</p>
           </div>
 
           <div className="mt-5 rounded-2xl bg-slate-950 p-5 font-mono text-sm leading-6 text-slate-100">
