@@ -29,46 +29,70 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-10">
-      <div className="grid w-full max-w-5xl gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="surface-card flex flex-col justify-between p-8 lg:p-10">
+    <div className="page-shell flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
+      <div className="grid w-full max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+        <section className="surface-card flex flex-col justify-between overflow-hidden p-8 lg:p-10">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
-              SF Tutorial
+            <Link
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300 transition hover:border-white/20 hover:bg-white/10 hover:text-white"
+              to="/"
+            >
+              <span className="inline-flex h-2 w-2 rounded-full bg-accent-300" />
+              Tutorials Forge
+            </Link>
+            <p className="mt-6 text-sm font-semibold uppercase tracking-[0.28em] text-accent-200/80">
+              Return To Your Workspace
             </p>
-            <h1 className="mt-4 text-4xl font-semibold leading-tight text-slate-900">
-              Learn, practice, and execute code in one focused workspace.
+            <h1 className="mt-4 max-w-2xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
+              Tutorials, practice, and live execution now share the same visual system.
             </h1>
-            <p className="mt-4 max-w-xl text-sm text-slate-500">
-              Tutorials, a live playground, guided problems, and progress tracking in a single
-              clean dashboard.
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
+              Pick up where you left off with guided modules, sandbox runs, and tracked problem
+              solving in one focused shell.
             </p>
           </div>
+
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl bg-peach-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">Tutorials</p>
-              <p className="mt-2 text-sm text-slate-500">Start with guided lessons and code examples.</p>
+            <div className="soft-panel">
+              <p className="text-sm font-semibold text-white">Tutorial library</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                Structured lessons with runnable examples and clear learning objectives.
+              </p>
             </div>
-            <div className="rounded-2xl bg-mint-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">Playground</p>
-              <p className="mt-2 text-sm text-slate-500">Run JavaScript code and inspect output instantly.</p>
+            <div className="soft-panel">
+              <p className="text-sm font-semibold text-white">Workspace runtime</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                Switch files, run snippets, and inspect output without leaving the session.
+              </p>
             </div>
-            <div className="rounded-2xl bg-brand-50 p-4">
-              <p className="text-sm font-semibold text-slate-900">Progress</p>
-              <p className="mt-2 text-sm text-slate-500">Track solved problems and completed lessons.</p>
+            <div className="soft-panel">
+              <p className="text-sm font-semibold text-white">Progress memory</p>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                Track completions, submissions, and streaks from the same account.
+              </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="surface-card p-8 lg:p-10">
-          <h2 className="text-2xl font-semibold text-slate-900">Sign in</h2>
-          <p className="mt-2 text-sm text-slate-500">
-            Use your account to continue where you left off.
-          </p>
-
-          <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+        <section className="surface-card p-8 lg:p-10">
+          <div className="flex items-start justify-between gap-4">
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-600" htmlFor="email">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent-200/80">
+                Sign In
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Open your learning shell</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-400">
+                Use your account to continue tutorials, playground runs, and saved progress.
+              </p>
+            </div>
+            <Link className="soft-button-secondary hidden sm:inline-flex" to="/register">
+              Create account
+            </Link>
+          </div>
+
+          <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="email">
                 Email
               </label>
               <input
@@ -85,7 +109,7 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm font-medium text-slate-600" htmlFor="password">
+              <label className="mb-2 block text-sm font-medium text-slate-300" htmlFor="password">
                 Password
               </label>
               <input
@@ -102,7 +126,9 @@ const LoginPage = () => {
             </div>
 
             {error ? (
-              <div className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div>
+              <div className="rounded-2xl border border-rose-400/25 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+                {error}
+              </div>
             ) : null}
 
             <button className="soft-button-primary w-full" disabled={isSubmitting} type="submit">
@@ -110,13 +136,16 @@ const LoginPage = () => {
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-slate-500">
-            New here?{" "}
-            <Link className="font-semibold text-slate-900" to="/register">
-              Create an account
-            </Link>
-          </p>
-        </div>
+          <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              New here?{" "}
+              <Link className="font-semibold text-white transition hover:text-accent-200" to="/register">
+                Create an account
+              </Link>
+            </p>
+            <p>Demo mode still works if the backend is unavailable.</p>
+          </div>
+        </section>
       </div>
     </div>
   );
