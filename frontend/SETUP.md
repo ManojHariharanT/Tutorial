@@ -197,7 +197,8 @@ frontend/
 
 - Those features need the backend running
 - Practice submissions also need a logged-in user
-- Only JavaScript execution is supported right now
+- Playground execution depends on which runtimes the backend exposes
+- JavaScript, Python, and SFLang are supported when the host machine provides the required runtime
 
 ### Demo content appears unexpectedly
 
