@@ -1,0 +1,211 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 5 /Kids [5 0 R 6 0 R 7 0 R 8 0 R 9 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 11 0 R >>
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 12 0 R >>
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 13 0 R >>
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 14 0 R >>
+endobj
+10 0 obj
+<< /Length 2637 >>
+stream
+BT /F2 24 Tf 54 740 Td (Project Status Report) Tj ET
+BT /F1 11 Tf 54 686 Td (Date: 2026-04-27) Tj ET
+BT /F1 11 Tf 54 671 Td (Repository: `SF Tutorial`) Tj ET
+BT /F2 17 Tf 54 646 Td (Executive Summary) Tj ET
+BT /F1 11 Tf 54 606 Td (The project is in a solid demo-ready state on the frontend and a partially verified state on) Tj ET
+BT /F1 11 Tf 54 591 Td (the backend.) Tj ET
+BT /F1 11 Tf 54 576 Td (The public-facing experience has recently been upgraded with a new light-themed landing) Tj ET
+BT /F1 11 Tf 54 561 Td (system and standalone public pages for compilers, articles, and tools.) Tj ET
+BT /F1 11 Tf 54 546 Td (The frontend production build is currently passing.) Tj ET
+BT /F1 11 Tf 54 521 Td (The main gap is operational confidence rather than feature breadth.) Tj ET
+BT /F1 11 Tf 54 506 Td (There is no automated test suite, the backend was not fully runtime-verified in this review,) Tj ET
+BT /F1 11 Tf 54 491 Td (and the codebase still contains legacy dark-theme pages alongside the new public pages.) Tj ET
+BT /F2 17 Tf 54 466 Td (Current Status) Tj ET
+BT /F1 11 Tf 54 426 Td (Overall status: `Functional prototype / integration stage`) Tj ET
+BT /F1 11 Tf 54 401 Td (What is working well:) Tj ET
+BT /F1 11 Tf 54 376 Td (- Public landing page is implemented and routed from `/`) Tj ET
+BT /F1 11 Tf 54 361 Td (- Public compiler page is now routed from `/playground`) Tj ET
+BT /F1 11 Tf 54 346 Td (- Public article pages are now routed from `/tutorials` and `/tutorials/:id`) Tj ET
+BT /F1 11 Tf 54 331 Td (- Public tools page is now routed from `/tools`) Tj ET
+BT /F1 11 Tf 54 316 Td (- Frontend production build passes with Vite) Tj ET
+BT /F1 11 Tf 54 301 Td (- Backend exposes modular routes for auth, tutorials, practice, progress, and playground) Tj ET
+BT /F1 11 Tf 54 286 Td (- Demo fallback content is extensive, which keeps the app usable even when APIs are) Tj ET
+BT /F1 11 Tf 54 271 Td (  unavailable) Tj ET
+BT /F1 11 Tf 54 246 Td (What is still immature:) Tj ET
+BT /F1 11 Tf 54 221 Td (- No automated tests found for frontend or backend) Tj ET
+BT /F1 11 Tf 54 206 Td (- No linting scripts found at root, frontend, or backend) Tj ET
+BT /F1 11 Tf 54 191 Td (- Backend runtime health beyond static inspection was not fully verified here) Tj ET
+BT /F1 11 Tf 54 176 Td (- Several old pages still exist in the repo and appear to be legacy implementations) Tj ET
+BT /F1 11 Tf 54 161 Td (- The app relies heavily on mock and fallback data, which is good for demos but increases) Tj ET
+BT /F1 11 Tf 54 146 Td (  drift risk) Tj ET
+BT /F2 17 Tf 54 121 Td (Repo Snapshot) Tj ET
+BT /F1 11 Tf 54 81 Td (Working tree status:) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Length 2321 >>
+stream
+BT /F1 11 Tf 54 740 Td (- Modified: `README.md`) Tj ET
+BT /F1 11 Tf 54 725 Td (- Modified: `frontend/src/config/routes.jsx`) Tj ET
+BT /F1 11 Tf 54 710 Td (- Modified: `frontend/src/features/auth/LoginPage.jsx`) Tj ET
+BT /F1 11 Tf 54 695 Td (- Modified: `frontend/src/features/auth/RegisterPage.jsx`) Tj ET
+BT /F1 11 Tf 54 680 Td (- Modified: `frontend/src/index.css`) Tj ET
+BT /F1 11 Tf 54 665 Td (- New: `frontend/src/features/landing/`) Tj ET
+BT /F1 11 Tf 54 650 Td (- New: `frontend/src/features/playground/CompilerWorkspacePage.jsx`) Tj ET
+BT /F1 11 Tf 54 635 Td (- New: `frontend/src/features/tools/DeveloperToolsPage.jsx`) Tj ET
+BT /F1 11 Tf 54 620 Td (- New: `frontend/src/features/tutorials/TutorialArticlePage.jsx`) Tj ET
+BT /F1 11 Tf 54 605 Td (- New: `frontend/src/features/tutorials/TutorialsCatalogPage.jsx`) Tj ET
+BT /F1 11 Tf 54 590 Td (- New: `frontend/src/styles/`) Tj ET
+BT /F1 11 Tf 54 565 Td (This tells us the repo is mid-transition toward the newer public UI.) Tj ET
+BT /F2 17 Tf 54 540 Td (Architecture Snapshot) Tj ET
+BT /F1 11 Tf 54 500 Td (Frontend:) Tj ET
+BT /F1 11 Tf 54 475 Td (- React 18 + Vite) Tj ET
+BT /F1 11 Tf 54 460 Td (- React Router for routing) Tj ET
+BT /F1 11 Tf 54 445 Td (- Tailwind plus custom CSS tokens and landing styles) Tj ET
+BT /F1 11 Tf 54 430 Td (- Monaco editor integration) Tj ET
+BT /F1 11 Tf 54 415 Td (- Axios service layer) Tj ET
+BT /F1 11 Tf 54 390 Td (Backend:) Tj ET
+BT /F1 11 Tf 54 365 Td (- Express) Tj ET
+BT /F1 11 Tf 54 350 Td (- MongoDB + Mongoose) Tj ET
+BT /F1 11 Tf 54 335 Td (- JWT auth) Tj ET
+BT /F1 11 Tf 54 320 Td (- Modular route structure under `backend/modules`) Tj ET
+BT /F1 11 Tf 54 305 Td (- Custom compiler pipeline and SFLang WebSocket LSP support) Tj ET
+BT /F2 17 Tf 54 280 Td (Verified During Review) Tj ET
+BT /F1 11 Tf 54 240 Td (Frontend build:) Tj ET
+BT /F1 11 Tf 54 215 Td (- Command run: `npm run build`) Tj ET
+BT /F1 11 Tf 54 200 Td (- Result: success) Tj ET
+BT /F1 11 Tf 54 175 Td (Verified entry points:) Tj ET
+BT /F1 11 Tf 54 150 Td (- Root script delegates to frontend build correctly) Tj ET
+BT /F1 11 Tf 54 135 Td (- Public routes now exist for:) Tj ET
+BT /F1 11 Tf 54 120 Td (- `/`) Tj ET
+BT /F1 11 Tf 54 105 Td (- `/playground`) Tj ET
+BT /F1 11 Tf 54 90 Td (- `/tutorials`) Tj ET
+BT /F1 11 Tf 54 75 Td (- `/tutorials/:id`) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Length 2170 >>
+stream
+BT /F1 11 Tf 54 740 Td (- `/tools`) Tj ET
+BT /F1 11 Tf 54 715 Td (Backend surface verified by inspection:) Tj ET
+BT /F1 11 Tf 54 690 Td (- `/api/health`) Tj ET
+BT /F1 11 Tf 54 675 Td (- `/api/auth`) Tj ET
+BT /F1 11 Tf 54 660 Td (- `/api/tutorials`) Tj ET
+BT /F1 11 Tf 54 645 Td (- `/api/practice`) Tj ET
+BT /F1 11 Tf 54 630 Td (- `/api/progress`) Tj ET
+BT /F1 11 Tf 54 615 Td (- `/api/playground`) Tj ET
+BT /F2 17 Tf 54 590 Td (Strengths) Tj ET
+BT /F1 11 Tf 54 550 Td (1. Clear feature scope) Tj ET
+BT /F1 11 Tf 54 525 Td (The product already covers the core learning platform loop:) Tj ET
+BT /F1 11 Tf 54 510 Td (authentication, tutorials, playground, practice, tools, and progress.) Tj ET
+BT /F1 11 Tf 54 485 Td (2. Good modular separation) Tj ET
+BT /F1 11 Tf 54 460 Td (The backend modules and frontend feature folders are organized in a way that can scale.) Tj ET
+BT /F1 11 Tf 54 435 Td (3. Strong demo resilience) Tj ET
+BT /F1 11 Tf 54 410 Td (The fallback content and local demo state make the project usable even during backend) Tj ET
+BT /F1 11 Tf 54 395 Td (issues.) Tj ET
+BT /F1 11 Tf 54 370 Td (4. Public experience is improving) Tj ET
+BT /F1 11 Tf 54 345 Td (The repo now includes a more intentional public UI layer instead of forcing everything) Tj ET
+BT /F1 11 Tf 54 330 Td (through the older protected workspace shell.) Tj ET
+BT /F2 17 Tf 54 305 Td (Risks and Gaps) Tj ET
+BT /F1 11 Tf 54 265 Td (1. Legacy and current UIs coexist) Tj ET
+BT /F1 11 Tf 54 240 Td (There are now parallel implementations for some surfaces.) Tj ET
+BT /F1 11 Tf 54 225 Td (Examples include:) Tj ET
+BT /F1 11 Tf 54 200 Td (- old tutorial pages: `TutorialsLibrary.jsx`, `TutorialDetail.jsx`, `TutorialsPage.jsx`) Tj ET
+BT /F1 11 Tf 54 185 Td (- old tools page: `ToolsGrid.jsx`) Tj ET
+BT /F1 11 Tf 54 170 Td (- old playground page: `Playground.jsx`, `PlaygroundPage.jsx`) Tj ET
+BT /F1 11 Tf 54 145 Td (This is not immediately broken, but it increases maintenance cost and makes future edits) Tj ET
+BT /F1 11 Tf 54 130 Td (easier to misroute.) Tj ET
+BT /F1 11 Tf 54 105 Td (2. No automated quality gate) Tj ET
+BT /F1 11 Tf 54 80 Td (No test scripts or lint scripts were found.) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Length 2605 >>
+stream
+BT /F1 11 Tf 54 740 Td (That means build success is the main confidence check right now.) Tj ET
+BT /F1 11 Tf 54 715 Td (3. Backend runtime not fully proven in this review) Tj ET
+BT /F1 11 Tf 54 690 Td (The backend depends on MongoDB seeding and local runtimes for execution.) Tj ET
+BT /F1 11 Tf 54 675 Td (Without a live startup check and endpoint smoke test, backend readiness is still assumed) Tj ET
+BT /F1 11 Tf 54 660 Td (rather than confirmed.) Tj ET
+BT /F1 11 Tf 54 635 Td (4. Demo data dependence) Tj ET
+BT /F1 11 Tf 54 610 Td (Many features intentionally fall back to mock content and local demo state.) Tj ET
+BT /F1 11 Tf 54 595 Td (That is useful for development, but it can hide real integration failures if not monitored) Tj ET
+BT /F1 11 Tf 54 580 Td (carefully.) Tj ET
+BT /F1 11 Tf 54 555 Td (5. Documentation may lag implementation) Tj ET
+BT /F1 11 Tf 54 530 Td (`README.md` is modified, and the app has recently changed route behavior.) Tj ET
+BT /F1 11 Tf 54 515 Td (The docs may need another pass after the route transition settles.) Tj ET
+BT /F2 17 Tf 54 490 Td (Recommended Next Steps) Tj ET
+BT /F1 11 Tf 54 450 Td (Priority 1:) Tj ET
+BT /F1 11 Tf 54 425 Td (- Remove or formally deprecate legacy page implementations that are no longer routed) Tj ET
+BT /F1 11 Tf 54 410 Td (- Decide which tutorial, tools, and playground components are the canonical versions) Tj ET
+BT /F1 11 Tf 54 395 Td (- Add at least a minimal lint script and one smoke test path) Tj ET
+BT /F1 11 Tf 54 370 Td (Priority 2:) Tj ET
+BT /F1 11 Tf 54 345 Td (- Start and verify backend locally against MongoDB) Tj ET
+BT /F1 11 Tf 54 330 Td (- Smoke test:) Tj ET
+BT /F1 11 Tf 54 315 Td (- `/api/health`) Tj ET
+BT /F1 11 Tf 54 300 Td (- `/api/tutorials`) Tj ET
+BT /F1 11 Tf 54 285 Td (- `/api/practice/problems`) Tj ET
+BT /F1 11 Tf 54 270 Td (- `/api/playground/languages`) Tj ET
+BT /F1 11 Tf 54 255 Td (- Confirm auth and protected progress flows end to end) Tj ET
+BT /F1 11 Tf 54 230 Td (Priority 3:) Tj ET
+BT /F1 11 Tf 54 205 Td (- Update README and setup docs to match the current routing model) Tj ET
+BT /F1 11 Tf 54 190 Td (- Add a small route map to reduce confusion between public pages and protected workspace) Tj ET
+BT /F1 11 Tf 54 175 Td (  pages) Tj ET
+BT /F2 17 Tf 54 150 Td (Bottom Line) Tj ET
+BT /F1 11 Tf 54 110 Td (This project is beyond scaffold stage and already feels like a real product prototype.) Tj ET
+BT /F1 11 Tf 54 95 Td (The frontend is buildable and the user-facing surface is becoming more coherent.) Tj ET
+BT /F1 11 Tf 54 70 Td (The biggest thing missing is confidence infrastructure:) Tj ET
+endstream
+endobj
+14 0 obj
+<< /Length 260 >>
+stream
+BT /F1 11 Tf 54 740 Td (tests, cleanup of duplicate legacy pages, and a full backend smoke pass.) Tj ET
+BT /F1 11 Tf 54 725 Td (Once those are in place, the project will move from "good demo app" to "much safer to) Tj ET
+BT /F1 11 Tf 54 710 Td (evolve.") Tj ET
+endstream
+endobj
+xref
+0 15
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000145 00000 n 
+0000000215 00000 n 
+0000000290 00000 n 
+0000000427 00000 n 
+0000000564 00000 n 
+0000000701 00000 n 
+0000000838 00000 n 
+0000000975 00000 n 
+0000003665 00000 n 
+0000006039 00000 n 
+0000008262 00000 n 
+0000010920 00000 n 
+trailer
+<< /Size 15 /Root 1 0 R >>
+startxref
+11232
+%%EOF

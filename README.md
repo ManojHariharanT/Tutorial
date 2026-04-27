@@ -1,11 +1,12 @@
 # SF Tutorial
 
-SF Tutorial is a full-stack learning platform that combines guided tutorials, a multi-language playground, coding practice, and progress tracking in one workspace.
+SF Tutorial is a full-stack learning platform that combines a TutorialsPoint-inspired public learning UI, guided tutorials, a multi-language playground, coding practice, and progress tracking in one workspace.
 
 The project uses a React + Vite frontend and an Express + MongoDB backend. On first startup, the backend seeds demo users, tutorials, and practice problems so the app is usable immediately.
 
 ## Highlights
 
+- Public landing page at `/` with a content-rich developer learning interface
 - JWT-based authentication with login, registration, and protected routes
 - Tutorial library with multi-language code examples
 - Multi-language playground backed by a server-side executor
@@ -139,6 +140,14 @@ You can also register a new account from the UI.
 
 ## Main Features
 
+### Public Learning UI
+
+- `/` renders the Tutorials Forge landing page
+- Sticky top navigation with category dropdown and mobile menu
+- Hero banner, feature cards, filterable topic grid, sortable coding table, tutorial tabs, toolbox row, and footer
+- Light theme design tokens live in `frontend/src/styles/tokens.css`
+- Landing page source lives in `frontend/src/features/landing/`
+
 ### Authentication
 
 - Register and login flows return a JWT and basic user profile
@@ -207,3 +216,25 @@ You can also register a new account from the UI.
 
 - Backend setup: [backend/SETUP.md](backend/SETUP.md)
 - Frontend setup: [frontend/SETUP.md](frontend/SETUP.md)
+
+## Landing Components
+
+The new learning platform UI is implemented as small reusable React components:
+
+- `SurfaceCard`
+  Shared card shell with the required white surface, 1px border, 8px radius, and hover treatment
+- `StatusBadge`
+  Reusable HOT, AI, NEW, PRO, and DONE badges
+- `DifficultyPill`
+  Shared Easy, Medium, and Hard pill styles for cards and table rows
+- `TechLogo`
+  Inline SVG logo renderer for tutorial library cards with lazy loading enabled below the fold
+- `HeroIllustration`
+  Flat SVG illustration used in the hero section
+
+To extend the landing page:
+
+1. Add or update content in `frontend/src/features/landing/landingData.js`
+2. Reuse the existing landing components from `frontend/src/features/landing/components/`
+3. Keep visual tokens in `frontend/src/styles/tokens.css`
+4. Keep layout-specific styles in `frontend/src/features/landing/landing.css`

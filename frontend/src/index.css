@@ -1,37 +1,22 @@
+@import "./styles/tokens.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
-  background: #050816;
+  background: var(--lp-color-page);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 24%),
-    radial-gradient(circle at top right, rgba(245, 214, 110, 0.14), transparent 20%),
-    linear-gradient(180deg, #0b1120 0%, #050816 100%);
-  color: #e2e8f0;
-  font-family: "Sora", "Poppins", ui-sans-serif, system-ui, sans-serif;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(circle at center, black, transparent 82%);
-  opacity: 0.55;
+  background: var(--lp-color-page);
+  color: var(--lp-color-text);
+  font-family: var(--lp-font-sans);
 }
 
 #root {
@@ -43,27 +28,32 @@ body::before {
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.35);
-  color: #f8fafc;
+  background: rgba(39, 174, 96, 0.24);
+  color: var(--lp-color-text);
 }
 
 @layer base {
   body {
     @apply antialiased;
   }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: "Clash Display", "Sora", "Poppins", ui-sans-serif, sans-serif;
-    letter-spacing: -0.02em;
-  }
 }
 
 @layer components {
   .page-shell {
-    @apply relative min-h-screen bg-shell-gradient;
+    @apply relative min-h-screen bg-shell-gradient text-slate-200;
+  }
+
+  .page-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(circle at center, black, transparent 82%);
+    opacity: 0.55;
   }
 
   .surface-card {
