@@ -178,7 +178,7 @@ const CodeEditor = ({
         <Editor
           height="100%"
           language={activeLanguage}
-          theme="vs-dark"
+          theme="vs"
           value={value}
           onChange={handleEditorChange}
           onMount={handleEditorMount}

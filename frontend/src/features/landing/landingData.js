@@ -57,12 +57,12 @@ export const heroHighlights = [
 ];
 
 export const topicCards = [
-  { id: "arrays", name: "Arrays", problemCount: 148, difficulty: "Easy", accent: "#27ae60" },
-  { id: "strings", name: "Strings", problemCount: 122, difficulty: "Easy", accent: "#2ecc71" },
+  { id: "arrays", name: "Arrays", problemCount: 148, difficulty: "Easy", accent: "#2563eb" },
+  { id: "strings", name: "Strings", problemCount: 122, difficulty: "Easy", accent: "#60a5fa" },
   { id: "trees", name: "Trees", problemCount: 94, difficulty: "Medium", accent: "#f39c12" },
   { id: "graphs", name: "Graphs", problemCount: 67, difficulty: "Hard", accent: "#e74c3c" },
   { id: "dp", name: "Dynamic Programming", problemCount: 89, difficulty: "Hard", accent: "#e74c3c" },
-  { id: "linked-lists", name: "Linked Lists", problemCount: 73, difficulty: "Easy", accent: "#27ae60" },
+  { id: "linked-lists", name: "Linked Lists", problemCount: 73, difficulty: "Easy", accent: "#2563eb" },
   { id: "heaps", name: "Heaps", problemCount: 44, difficulty: "Medium", accent: "#f39c12" },
   { id: "system-design", name: "System Design", problemCount: 36, difficulty: "Hard", accent: "#e74c3c" },
   { id: "sql", name: "SQL", problemCount: 58, difficulty: "Medium", accent: "#f39c12" },
@@ -170,12 +170,12 @@ export const tutorialLibrary = [
 ];
 
 export const toolboxItems = [
-  { id: "resume", label: "AI Resume Builder", icon: "CV", href: "#developer-toolbox" },
-  { id: "whiteboard", label: "Whiteboard", icon: "WB", href: "#developer-toolbox" },
-  { id: "json", label: "JSON Editor", icon: "{}", href: "#developer-toolbox" },
-  { id: "qr", label: "QR Generator", icon: "QR", href: "#developer-toolbox" },
-  { id: "regex", label: "Regex Lab", icon: ".*", href: "#developer-toolbox" },
-  { id: "diff", label: "Code Diff", icon: "</>", href: "#developer-toolbox" },
+  { id: "resume", label: "AI Resume Builder", icon: "CV", href: "/tools/resume-builder" },
+  { id: "whiteboard", label: "Whiteboard", icon: "WB", href: "/tools/whiteboard" },
+  { id: "json", label: "JSON Editor", icon: "{}", href: "/tools/json-editor" },
+  { id: "qr", label: "QR Generator", icon: "QR", href: "/tools/qr-generator" },
+  { id: "regex", label: "Regex Lab", icon: ".*", href: "/tools/regex-lab" },
+  { id: "diff", label: "Code Diff", icon: "</>", href: "/tools/code-diff" },
 ];
 
 export const footerColumns = [

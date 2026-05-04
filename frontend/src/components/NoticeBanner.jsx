@@ -1,5 +1,6 @@
 const toneClasses = {
   info: "border-accent-400/25 bg-accent-400/10 text-accent-100",
+  success: "border-success-200/25 bg-success-300/10 text-success-100",
   warning: "border-gold-200/25 bg-gold-200/10 text-gold-100",
   error: "border-rose-400/25 bg-rose-500/10 text-rose-100",
 };

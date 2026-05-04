@@ -1,18 +1,18 @@
 # SF Tutorial
 
-SF Tutorial is a full-stack learning platform that combines a TutorialsPoint-inspired public learning UI, guided tutorials, a multi-language playground, coding practice, and progress tracking in one workspace.
+SF Tutorial is a full-stack learning platform with an authenticated workspace for tutorials, coding practice, playground execution, and progress tracking.
 
-The project uses a React + Vite frontend and an Express + MongoDB backend. On first startup, the backend seeds demo users, tutorials, and practice problems so the app is usable immediately.
+The project uses a React + Vite frontend and an Express + MongoDB backend. The backend seeds demo users, tutorials, and practice problems on startup, and the frontend includes fallback demo content so most screens remain usable even when some API calls are unavailable.
 
 ## Highlights
 
-- Public landing page at `/` with a content-rich developer learning interface
+- Shared workspace shell with sidebar navigation, sticky topbar, and command-style search
 - JWT-based authentication with login, registration, and protected routes
-- Tutorial library with multi-language code examples
-- Multi-language playground backed by a server-side executor
-- Practice problems with sample runs and full submissions
+- Tutorial library with multi-language examples and completion tracking
+- Playground with backend-powered code execution
+- Practice area with search, difficulty filters, queue stats, sample runs, and submissions
 - Progress dashboard with completed tutorials, solved problems, and recent submissions
-- Fallback demo content in the frontend when some API calls are unavailable
+- Frontend fallback content for partial-backend or offline-ish local development
 
 ## Tech Stack
 
@@ -33,7 +33,6 @@ The project uses a React + Vite frontend and an Express + MongoDB backend. On fi
 |   |   |-- progress/
 |   |   `-- tutorials/
 |   |-- utils/
-|   |-- .env.example
 |   |-- SETUP.md
 |   `-- server.js
 |-- frontend/
@@ -43,10 +42,11 @@ The project uses a React + Vite frontend and an Express + MongoDB backend. On fi
 |   |   |-- features/
 |   |   |-- hooks/
 |   |   |-- layout/
+|   |   |-- plugins/
 |   |   |-- services/
 |   |   `-- utils/
-|   |-- .env.example
-|   `-- SETUP.md
+|   |-- SETUP.md
+|   `-- vite.config.js
 `-- package.json
 ```
 
@@ -75,7 +75,7 @@ Frontend:
 cp frontend/.env.example frontend/.env
 ```
 
-Update the backend `.env` with a real `JWT_SECRET`. The default local values are:
+Default backend values:
 
 ```env
 PORT=5000
@@ -85,7 +85,7 @@ JWT_SECRET=replace-with-a-secure-secret
 CORS_ORIGIN=http://localhost:5173
 ```
 
-The frontend default is:
+Default frontend value:
 
 ```env
 VITE_API_URL=http://localhost:5000/api
@@ -93,7 +93,7 @@ VITE_API_URL=http://localhost:5000/api
 
 ### 3. Start the app
 
-Run both frontend and backend from the root:
+Run both services from the project root:
 
 ```bash
 npm run dev
@@ -112,6 +112,32 @@ Backend: `http://localhost:5000`
 
 Health check: `http://localhost:5000/api/health`
 
+## Docker
+
+Start the full local stack with MongoDB, backend, and frontend:
+
+```bash
+docker compose up --build
+```
+
+Frontend: `http://localhost:5173`
+
+Backend: `http://localhost:5000`
+
+Health check: `http://localhost:5000/api/health`
+
+MongoDB data is stored in the `mongo-data` Docker volume. Stop the stack with:
+
+```bash
+docker compose down
+```
+
+To remove the database volume as well:
+
+```bash
+docker compose down -v
+```
+
 ## Root Scripts
 
 - `npm run dev` starts frontend and backend together
@@ -121,13 +147,19 @@ Health check: `http://localhost:5000/api/health`
 - `npm run dev:server` starts the backend with nodemon
 - `npm run dev:full` runs frontend and backend together
 
-## Seeded Demo Data
+## Demo Data
 
 When the backend connects to MongoDB, it seeds data if the collections are empty:
 
-- 4 users
+- 4 demo users
 - 3 tutorials
 - 3 practice problems
+
+The frontend also ships with local fallback content used when API requests fail:
+
+- 4 tutorial experiences
+- 4 practice problems
+- dashboard, notification, progress, and tool demo content
 
 Demo accounts:
 
@@ -140,39 +172,41 @@ You can also register a new account from the UI.
 
 ## Main Features
 
-### Public Learning UI
+### App Shell
 
-- `/` renders the Tutorials Forge landing page
-- Sticky top navigation with category dropdown and mobile menu
-- Hero banner, feature cards, filterable topic grid, sortable coding table, tutorial tabs, toolbox row, and footer
-- Light theme design tokens live in `frontend/src/styles/tokens.css`
-- Landing page source lives in `frontend/src/features/landing/`
+- Shared authenticated workspace shell in `frontend/src/layout/`
+- Sidebar navigation for dashboard, tutorials, practice, playground, tools, and progress
+- Sticky topbar with page context, search trigger, notifications, and user state
+- Reusable cards, buttons, badges, inputs, and layout primitives in `frontend/src/components/`
 
 ### Authentication
 
-- Register and login flows return a JWT and basic user profile
+- Register and login flows return a JWT and user profile
 - The frontend stores auth state locally and attaches `Authorization: Bearer <token>` to API requests
-- Dashboard, tutorials, playground, practice, progress, bookmarks, and settings live behind protected routes
+- Dashboard, tutorials, playground, practice, progress, bookmarks, and settings are protected routes
 
 ### Tutorials
 
 - Tutorials are fetched from `GET /api/tutorials`
-- Each tutorial includes a summary plus language example tabs
+- Each tutorial includes a summary and language example tabs
 - Completing a tutorial calls `POST /api/progress/tutorials/:tutorialId/complete`
+- The frontend can fall back to richer local mock tutorials when the API is unavailable
 
 ### Playground
 
-- Playground code runs through `GET /api/playground/languages` and `POST /api/playground/run`
+- Playground execution uses `GET /api/playground/languages` and `POST /api/playground/run`
 - Current support is JavaScript, Python, and SFLang when the host runtime is available
 - Execution is limited to 5 seconds
-- Every run is stored in MongoDB
+- Runs are stored in MongoDB
 
 ### Practice
 
-- Problem list supports difficulty filtering
-- Sample runs evaluate visible sample cases
+- Problem list supports search and difficulty filtering
+- The list UI shows queue-style stats, acceptance rates, tags, estimated time, and completions
+- Sample runs evaluate sample cases only
 - Submissions evaluate against all stored test cases and persist the result
-- Accepted submissions update the user's solved-problem progress
+- Accepted submissions update solved-problem progress
+- The detail view includes a problem briefing, constraints, hints, editor, and results panel
 
 ### Progress
 
@@ -181,7 +215,7 @@ You can also register a new account from the UI.
 
 ### Placeholder Pages
 
-- `Bookmarks` and `Settings` routes are present as UI placeholders for future work
+- `Bookmarks` and `Settings` are scaffolded UI placeholders for future work
 
 ## API Overview
 
@@ -209,32 +243,10 @@ You can also register a new account from the UI.
 
 - The code executor currently supports JavaScript, Python, and SFLang
 - Playground and practice execution rely on local runtimes through the backend
-- Several frontend screens fall back to mock data when related API calls fail
-- `Bookmarks` and `Settings` are intentionally scaffolded placeholders
+- Several frontend screens intentionally fall back to mock data when related API calls fail
+- `Bookmarks` and `Settings` are intentionally placeholder routes
 
 ## More Documentation
 
 - Backend setup: [backend/SETUP.md](backend/SETUP.md)
 - Frontend setup: [frontend/SETUP.md](frontend/SETUP.md)
-
-## Landing Components
-
-The new learning platform UI is implemented as small reusable React components:
-
-- `SurfaceCard`
-  Shared card shell with the required white surface, 1px border, 8px radius, and hover treatment
-- `StatusBadge`
-  Reusable HOT, AI, NEW, PRO, and DONE badges
-- `DifficultyPill`
-  Shared Easy, Medium, and Hard pill styles for cards and table rows
-- `TechLogo`
-  Inline SVG logo renderer for tutorial library cards with lazy loading enabled below the fold
-- `HeroIllustration`
-  Flat SVG illustration used in the hero section
-
-To extend the landing page:
-
-1. Add or update content in `frontend/src/features/landing/landingData.js`
-2. Reuse the existing landing components from `frontend/src/features/landing/components/`
-3. Keep visual tokens in `frontend/src/styles/tokens.css`
-4. Keep layout-specific styles in `frontend/src/features/landing/landing.css`
