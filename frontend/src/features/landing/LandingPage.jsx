@@ -34,7 +34,7 @@ const AppStoreBadge = ({ type }) => {
     return (
       <a className="lp-app-badge" href="#footer">
         <svg aria-hidden="true" fill="none" viewBox="0 0 24 24">
-          <path d="M4 3 18 12 4 21V3Z" fill="#27ae60" />
+          <path d="M4 3 18 12 4 21V3Z" fill="#2563eb" />
         </svg>
         <span>
           <small>Get it on</small>
@@ -168,9 +168,9 @@ const LandingPage = () => {
           <div className="lp-topnav-row">
             <div className="lp-topnav-left">
               <Link className="lp-logo" to="/">
-                <span className="lp-logo-mark">TP</span>
+                <span className="lp-logo-mark">SF</span>
                 <span className="lp-logo-copy">
-                  <strong>Tutorials Forge</strong>
+                  <strong>SF Tutorial</strong>
                   <span>Developer learning platform</span>
                 </span>
               </Link>
@@ -261,7 +261,7 @@ const LandingPage = () => {
               <span className="lp-section-kicker">Utility-first learning for engineers</span>
               <h1>Build depth across tutorials, coding drills, and developer tools from one technical workspace.</h1>
               <p>
-                Tutorials Forge brings together topic grids, sortable interview questions,
+                SF Tutorial brings together topic grids, sortable interview questions,
                 multi-track tutorials, and fast utilities in a layout optimized for scanning,
                 comparing, and getting back to code.
               </p>
@@ -597,9 +597,9 @@ const LandingPage = () => {
           <div className="lp-footer-grid">
             <div className="lp-footer-copy">
               <Link className="lp-logo" to="/">
-                <span className="lp-logo-mark">TP</span>
+                <span className="lp-logo-mark">SF</span>
                 <span className="lp-logo-copy">
-                  <strong>Tutorials Forge</strong>
+                  <strong>SF Tutorial</strong>
                   <span>Content-rich UI for technical learners</span>
                 </span>
               </Link>
@@ -628,7 +628,7 @@ const LandingPage = () => {
           </div>
 
           <div className="lp-footer-bottom">
-            &copy; 2026 Tutorials Forge. Built for developer education, practice, and
+            &copy; 2026 SF Tutorial. Built for developer education, practice, and
             tool-assisted learning.
           </div>
         </div>

@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import SearchCommand from "../components/shared/SearchCommand.jsx";
 import navigation from "../config/navigation.js";
-import { mockProblems, mockTools, mockTutorials } from "../config/mockContent.js";
+import { mockProblems, mockTutorials } from "../config/mockContent.js";
+import { developerTools } from "../features/tools/toolboxData.js";
 import Sidebar from "./Sidebar.jsx";
 import Topbar from "./Topbar.jsx";
 
@@ -56,11 +57,11 @@ const MainLayout = () => {
         path: `/practice/${problem._id}`,
         keywords: [problem.difficulty, problem.category, ...(problem.tags || [])],
       })),
-      ...mockTools.map((tool) => ({
+      ...developerTools.map((tool) => ({
         id: tool.id,
         label: tool.name,
         description: tool.description,
-        path: "/tools",
+        path: tool.path,
         keywords: [tool.category],
       })),
     ],

@@ -148,9 +148,9 @@ const CompilerWorkspacePage = () => {
           <div className="lp-topnav-row">
             <div className="lp-topnav-left">
               <Link className="lp-logo" to="/">
-                <span className="lp-logo-mark">TP</span>
+                <span className="lp-logo-mark">SF</span>
                 <span className="lp-logo-copy">
-                  <strong>Tutorials Forge</strong>
+                  <strong>SF Tutorial</strong>
                   <span>Developer learning platform</span>
                 </span>
               </Link>
@@ -232,7 +232,7 @@ const CompilerWorkspacePage = () => {
                         width: "100%",
                         textAlign: "left",
                         borderRadius: "20px",
-                        border: file.id === activeFileId ? "1px solid #27ae60" : "1px solid #d7e2da",
+                        border: file.id === activeFileId ? "1px solid #2563eb" : "1px solid #d5e3ff",
                         background: file.id === activeFileId ? "#f2fbf6" : "#ffffff",
                         padding: "1rem",
                         display: "grid",

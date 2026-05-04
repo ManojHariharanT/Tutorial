@@ -78,9 +78,9 @@ const TutorialsCatalogPage = () => {
           <div className="lp-topnav-row">
             <div className="lp-topnav-left">
               <Link className="lp-logo" to="/">
-                <span className="lp-logo-mark">TP</span>
+                <span className="lp-logo-mark">SF</span>
                 <span className="lp-logo-copy">
-                  <strong>Tutorials Forge</strong>
+                  <strong>SF Tutorial</strong>
                   <span>Developer learning platform</span>
                 </span>
               </Link>

@@ -1,7 +1,7 @@
 :root {
-  --lp-color-primary: #27ae60;
-  --lp-color-primary-hover: #219d54;
-  --lp-color-primary-soft: #2ecc71;
+  --lp-color-primary: #2563eb;
+  --lp-color-primary-hover: #1d4ed8;
+  --lp-color-primary-soft: #60a5fa;
   --lp-color-page: #f4f4f4;
   --lp-color-surface: #ffffff;
   --lp-color-surface-alt: #f9f9f9;
@@ -22,7 +22,7 @@
   --lp-color-hot: #e74c3c;
   --lp-color-pro: #f39c12;
   --lp-color-new: #3498db;
-  --lp-color-success: #2ecc71;
+  --lp-color-success: #3b82f6;
   --lp-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
   --lp-shadow-nav: 0 12px 32px rgba(27, 39, 32, 0.08);
   --lp-radius-sm: 6px;

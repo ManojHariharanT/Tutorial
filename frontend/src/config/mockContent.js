@@ -440,41 +440,6 @@ export const mockTrendingItems = [
   },
 ];
 
-export const mockTools = [
-  {
-    id: "json-formatter",
-    name: "JSON Formatter",
-    category: "Formatter",
-    description: "Beautify raw payloads and recover readable indentation instantly.",
-    accent: "accent",
-    sampleInput: '{"name":"Tutorial","modules":["dashboard","practice"],"active":true}',
-  },
-  {
-    id: "json-validator",
-    name: "JSON Validator",
-    category: "Validator",
-    description: "Check whether a payload parses cleanly and inspect its top-level keys.",
-    accent: "easy",
-    sampleInput: '{"theme":"dark","routes":["/dashboard","/tutorials"]}',
-  },
-  {
-    id: "base64-encoder",
-    name: "Base64 Utility",
-    category: "Utility",
-    description: "Encode or decode text while debugging auth tokens and payloads.",
-    accent: "medium",
-    sampleInput: "learning-platform",
-  },
-  {
-    id: "slug-generator",
-    name: "Slug Generator",
-    category: "Utility",
-    description: "Turn headings or titles into route-friendly slugs.",
-    accent: "tag",
-    sampleInput: "Async Workflows & Platform UI",
-  },
-];
-
 export const mockNotifications = [
   {
     id: "notif-1",
