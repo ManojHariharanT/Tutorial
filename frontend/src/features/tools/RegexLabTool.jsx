@@ -83,10 +83,10 @@ const RegexLabTool = () => {
                 result.matches.map((match, index) => (
                   <div className="soft-panel" key={`${match.index}-${index}`}>
                     <div className="flex items-center justify-between gap-3">
-                      <strong className="text-slate-100">{match.value}</strong>
-                      <span className="text-sm text-slate-400">Index {match.index}</span>
+                      <strong className="text-slate-900">{match.value}</strong>
+                      <span className="text-sm text-slate-600">Index {match.index}</span>
                     </div>
-                    <p className="mt-2 text-sm text-slate-400">
+                    <p className="mt-2 text-sm text-slate-600">
                       {match.groups.length ? `Groups: ${match.groups.join(", ")}` : "No capture groups"}
                     </p>
                   </div>

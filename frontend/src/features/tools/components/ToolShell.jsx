@@ -14,7 +14,7 @@ const ToolShell = ({ title, description, eyebrow = "Developer Toolbox", children
         </Button>
         {actions ? <div className="flex flex-wrap items-center gap-3">{actions}</div> : null}
       </div>
-      <PageHeader description={description} eyebrow={eyebrow} title={title} />
+      <PageHeader description={description} eyebrow={eyebrow} light title={title} />
       {children}
     </main>
   </div>
